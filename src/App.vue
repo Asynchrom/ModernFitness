@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="font-family: 'Source Sans Pro', sans-serif;">
+  <div id="app">
     <router-view/>
   </div>
 </template>

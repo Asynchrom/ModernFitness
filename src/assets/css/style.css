@@ -1,3 +1,7 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
 .scroll-bg {-webkit-animation-name:scrollSmall;animation-name:scrollSmall;-webkit-animation-duration:15s;animation-duration:15s;-webkit-animation-timing-function:linear;animation-timing-function:linear;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite}
 
 @-webkit-keyframes scrollSmall{0%{transform:rotate(-13deg) translateY(0)}to{transform:rotate(-13deg) translateY(-639px)}}
@@ -88,7 +92,7 @@
    }
    .gallery-area .gallery-box .single-gallery .g-caption h1 {
     color:#fff;
-    font-size:75px;
+    font-size:65px;
     margin-bottom:20px
    }
    .gallery-area .gallery-box .single-gallery .g-caption p {
