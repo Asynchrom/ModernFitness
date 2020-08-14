@@ -21,7 +21,7 @@
           <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
         </div>
         <div class="flex items-center justify-between">
-          <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none" type="button">
+          <button v-on:click="login" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none" type="button">
             Login
           </button>
           <a v-on:click="switchModal" class="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-700" href="#">
@@ -42,6 +42,9 @@ export default {
     },
     switchModal() {
       this.$emit('switchModalMessage')
+    },
+    login() {
+      this.$router.replace({ name: "Menu" });
     }
   }
 }

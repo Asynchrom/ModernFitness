@@ -1,8 +1,8 @@
 <template>
     <div class="bg-gray-200" style="min-height:100vh">
-        <button class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:40px; margin-left: 40px">
+        <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward"></i>
-        </button>
+        </router-link>
         <button class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:110px; margin-right: 40px">
             <i class="fas fa-search"></i>
         </button>

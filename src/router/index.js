@@ -16,6 +16,11 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "menu" */ '../views/Menu.vue')
   },
   {
+    path: '/user',
+    name: 'User',
+    component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
+  },
+  {
     path: '/exercises',
     name: 'Exercises',
     component: () => import(/* webpackChunkName: "exercises" */ '../views/Exercises.vue')
