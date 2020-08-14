@@ -1,0 +1,114 @@
+.scroll-bg {-webkit-animation-name:scrollSmall;animation-name:scrollSmall;-webkit-animation-duration:15s;animation-duration:15s;-webkit-animation-timing-function:linear;animation-timing-function:linear;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite}
+
+@-webkit-keyframes scrollSmall{0%{transform:rotate(-13deg) translateY(0)}to{transform:rotate(-13deg) translateY(-639px)}}
+@keyframes scrollSmall{0%{transform:rotate(-13deg) translateY(0)}to{transform:rotate(-13deg) translateY(-639px)}}
+
+.move-up-down {-webkit-animation: action 1s infinite  alternate;animation: action 1s infinite  alternate;}
+
+@-webkit-keyframes action{0%{transform: translateY(0);}100%{transform: translateY(-10px);}}
+@keyframes action{0%{transform: translateY(0);}100%{transform: translateY(-10px);}}
+
+.slide-in-bottom{-webkit-animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) both}
+.slide-in-bottom-h1{-webkit-animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) .5s both;animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) .5s both}
+.slide-in-bottom-subtitle{-webkit-animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) .75s both;animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) .75s both}
+.fade-in{-webkit-animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 1s both;animation:fade-in 1.2s cubic-bezier(.39,.575,.565,1.000) 1s both}
+.bounce-top-icons{-webkit-animation:bounce-top .9s 1s both;animation:bounce-top .9s 1s both}
+		
+@-webkit-keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
+@-webkit-keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}@keyframes bounce-top{0%{-webkit-transform:translateY(-45px);transform:translateY(-45px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in;opacity:1}24%{opacity:1}40%{-webkit-transform:translateY(-24px);transform:translateY(-24px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}65%{-webkit-transform:translateY(-12px);transform:translateY(-12px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}82%{-webkit-transform:translateY(-6px);transform:translateY(-6px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}93%{-webkit-transform:translateY(-4px);transform:translateY(-4px);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}25%,55%,75%,87%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out}100%{-webkit-transform:translateY(0);transform:translateY(0);-webkit-animation-timing-function:ease-out;animation-timing-function:ease-out;opacity:1}}
+@-webkit-keyframes fade-in{0%{opacity:0}100%{opacity:1}}@keyframes fade-in{0%{opacity:0}100%{opacity:1}}
+
+.gallery-area .gallery-box .single-gallery {
+    overflow:hidden;
+    z-index:0;
+    position:relative
+   }
+   .gallery-area .gallery-box .single-gallery::before {
+    position:absolute;
+    width:100%;
+    height:50%;
+    bottom:0;
+    content:""
+   }
+   .gallery-area .gallery-box .single-gallery::after {
+    content:"";
+    background:rgba(192,86,33,0.9);
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    z-index:1;
+    visibility:hidden;
+    opacity:0;
+    -webkit-transition:all .4s ease-out 0s;
+    -moz-transition:all .4s ease-out 0s;
+    -ms-transition:all .4s ease-out 0s;
+    -o-transition:all .4s ease-out 0s;
+    transition:all .4s ease-out 0s
+   }
+   .gallery-area .gallery-box .single-gallery .gallery-img {
+    height:50vh;
+    background-size:cover;
+    background-repeat:no-repeat
+   }
+   .gallery-area .gallery-box .single-gallery .cap-icon {
+    position:absolute;
+    top:50px;
+    left:-20px;
+    z-index:2;
+    opacity:0;
+    visibility:hidden;
+    -webkit-transition:all .4s ease-out 0s;
+    -moz-transition:all .4s ease-out 0s;
+    -ms-transition:all .4s ease-out 0s;
+    -o-transition:all .4s ease-out 0s;
+    transition:all .4s ease-out 0s
+   }
+   .gallery-area .gallery-box .single-gallery .cap-icon a {
+    font-size:30px;
+    color:#fff
+   }
+   .gallery-area .gallery-box .single-gallery .g-caption {
+    position:absolute;
+    z-index:5;
+    left:40px;
+    transform:translateY(0%);
+    -webkit-transform:translateY(0%);
+    -moz-transform:translateY(0%);
+    -ms-transform:translateY(0%);
+    -o-transform:translateY(0%);
+    -webkit-transition:all .4s ease-out 0s;
+    -moz-transition:all .4s ease-out 0s;
+    -ms-transition:all .4s ease-out 0s;
+    -o-transition:all .4s ease-out 0s;
+    transition:all .4s ease-out 0s;
+    opacity:0;
+    visibility:hidden
+   }
+   .gallery-area .gallery-box .single-gallery .g-caption h1 {
+    color:#fff;
+    font-size:75px;
+    margin-bottom:20px
+   }
+   .gallery-area .gallery-box .single-gallery .g-caption p {
+    color:#fff;
+    margin-bottom:30px
+   }
+   .gallery-box:hover .single-gallery::after {
+    visibility:visible;
+    opacity:1
+   }
+   .gallery-box:hover .single-gallery .g-caption {
+    transform:translateY(-102%);
+    opacity:1;
+    visibility:visible
+   }
+   .gallery-box:hover .single-gallery .cap-icon {
+    top:50px;
+    left:42px;
+    transition-duration:.5s;
+    opacity:1;
+    visibility:visible
+   }
+   
