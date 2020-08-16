@@ -27,11 +27,15 @@ let Workouts = [
         exercises: [
             {
                 id: 1,
+                name: 'Dumbbell Bench Press',
+                muscleGroup: 'Chest',
                 sets: 3,
                 reps: 4
             },
             {
                 id: 2,
+                name: 'Incline dumbbell bench press',
+                muscleGroup: 'Chest',
                 sets: 2,
                 reps: 1
             }

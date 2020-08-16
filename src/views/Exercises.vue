@@ -39,7 +39,7 @@
 
                             <select v-model="muscleGroup" class="text-gray-600 appearance-none bg-transparent border-none rounded text-sm mr-3 py-0leading-tight focus:outline-none" style="cursor: pointer">
                                 <option value="" disabled selected>Choose a muscle group</option>
-                                <option v-for="muscles in muscleGroups" v-bind:value="muscles">
+                                <option v-for="muscles in muscleGroups" v-bind:value="muscles" v-bind:key="muscles">
                                     {{muscles}}
                                 </option>
                             </select>
@@ -111,6 +111,15 @@ export default {
         }
     },
 
+    mounted (){
+        this.exercises = this.exercises.sort(function (a, b) {
+            if (a.name > b.name) return 1;
+            if (b.name > a.name) return -1;
+            return 0;
+        });
+        console.log(this.exercises)
+    },
+
     methods: {
         editingClick() {
             this.isEditing = !this.isEditing
@@ -120,10 +129,10 @@ export default {
         },
 
         saveEntry() {
-            Exercises.unshift({    
+            this.exercises.unshift({    
                 custom: true,
                 img: '',
-                name: this.name,
+                name: this.name.charAt(0).toUpperCase() + this.name.slice(1),
                 muscleGroup: this.muscleGroup,
                 description: this.description
             })
