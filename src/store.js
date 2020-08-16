@@ -56,4 +56,15 @@ let Workouts = [
     },
 ]
 
-export { MuscleGroups, Exercises, Workouts }
+let User = {
+    username: 'KingKeanu',
+    gender: 'Male',
+    password: '12345',
+    firstName: 'Keanu',
+    lastName: 'Reeves',
+    city: 'Pula',
+    state: 'Croatia',
+    zip: '52100'
+}
+
+export { MuscleGroups, Exercises, Workouts, User }

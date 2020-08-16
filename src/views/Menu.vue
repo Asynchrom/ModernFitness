@@ -36,7 +36,7 @@
         </div>
         <div class="flex">
             <div class="w-1/2">
-                <router-link to="/profile/">
+                <router-link to="/user/">
                     <div class="gallery-box">
                         <div class="single-gallery">
                             <div

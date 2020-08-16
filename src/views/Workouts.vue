@@ -10,6 +10,8 @@
             <i class="fas fa-plus-circle"></i>
         </button>
 
+        <ExerciseSearch v-if="exerciseSearchOpen" v-on:closeModalMessage="closeSearch" />
+
         <div class="container mx-auto p-8">
 
             <div v-if="editorOpen" class="p-0 justify-center shadow-md bounce-top-fast">
@@ -35,7 +37,7 @@
                             <th></th>
                         </tr>
 
-                        <tr v-for="exercise in currentWorkout.exercises" v-bind:key="exercise.id" class="border-b hover:bg-orange-100 bg-gray-100">
+                        <tr v-for="exercise in currentWorkout.exercises" v-bind:key="exercise.id" class="border-b hover:bg-orange-100 bg-gray-200">
                             <td class="p-3 px-5"><p>{{exercise.name}}</p></td>
                             <td class="p-3 pr-20"><p>{{exercise.muscleGroup}}</p></td>
                             <td class="p-3 pr-20"><p>{{exercise.sets}}x</p></td>
@@ -44,9 +46,10 @@
                             <button type="button" class="justify-end text-sm bg-orange-500 hover:bg-orange-700 text-white my-3 py-1 px-2 rounded focus:outline-none focus:shadow-outline">Remove</button>
                             
                         </tr>
-                         <tr class="border-b hover:bg-orange-100 bg-gray-100" style="cursor: pointer">
+                        <tr v-on:click="exerciseSearchOpen = true" class="border-b hover:bg-orange-100 bg-gray-200" style="cursor: pointer">
                             <td colspan="5" class="py-3 pl-5 text-gray-500">+ Add exercise</td>
                         </tr>
+                       
                     </tbody>
                 </table>
                 <div class="mb-0 text-md bg-white text-center">
@@ -65,7 +68,7 @@
                             <th class="text-left p-3 px-5">Muscle Groups</th>
                         </tr>
 
-                        <tr v-bind:class="{'disable-stuff': editorOpen}" v-on:click="workoutClicked(workout)" v-for="workout in workouts" v-bind:key="workout.id" class="border-b hover:bg-orange-100 bg-gray-100" style="cursor: pointer">
+                        <tr  v-on:click="workoutClicked(workout)" v-for="workout in workouts" v-bind:key="workout.id" class="border-b hover:bg-orange-100 bg-gray-100" style="cursor: pointer">
                             <td class="p-3 px-5"><p>{{workout.date}}</p></td>
                             <td class="p-3 px-5"><p>{{workout.duration}} min</p></td>
                             <td class="p-3 px-5"><p>{{workout.muscles}}</p></td>
@@ -78,29 +81,35 @@
 </template>
 
 <script>
-import WorkoutCard from '../components/WorkoutCard.vue'
+import ExerciseSearch from '../components/ExerciseSearch.vue'
 import { Exercises, Workouts } from '../store.js'
 
 export default {
-    components: { WorkoutCard },
+    components: { ExerciseSearch },
 
     data() {
         return {
             workouts: Workouts,
             editorOpen: false,
             currentWorkout: {},
-            currentExercises: Exercises
+            currentExercises: Exercises,
+            exerciseSearchOpen: false
         }
     },
 
     methods: {
-        workoutClicked(workout) {
+        async workoutClicked(workout) {
+            this.editorOpen = false
+            await this.$forceUpdate()
             this.editorOpen = true
             this.currentWorkout = workout
         },
         closeClicked() {
             this.editorOpen = false;
             this.currentWorkout = {}
+        },
+        closeSearch() {
+            this.exerciseSearchOpen = false;
         }
     }
 }

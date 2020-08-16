@@ -15,7 +15,7 @@
 
         <div v-if="showSearch" class="p-5 mx-32">
             <div class="bg-white flex items-center rounded-full shadow-xl">
-            <input class="rounded-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search">
+            <input v-model="search" class="rounded-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" type="text" placeholder="Search">
             </div>
         </div>
 
@@ -26,13 +26,16 @@
                         <div class="block bg-gray-200 border-b" style="height:250px">
                             <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
                                 New entry!
-                            </p>   
+                            </p>
+                            <p v-if="error" class="absolute left-0 bg-red-600 text-white text-xs font-bold px-2 rounded mr-4" style="top:50px">
+                                {{error}}
+                            </p>
                         <img class="block" src="/img/image-placeholder.png" style="height: 100%; width: 100%; object-fit: cover">
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-bold">
-                                <input v-model="name" class="appearance-none bg-transparent border-none w-full font-bold mr-3 pr-2 leading-tight focus:outline-none" placeholder="Exercise Name">   
-                                <button v-on:click="saveEntry" class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-10 mr-4">
+                                <input v-model="name" class="appearance-none bg-transparent w-full font-bold mr-3 pr-2 leading-tight focus:outline-none" placeholder="Exercise Name">   
+                                <button v-on:click="saveEntry" class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 h-8 rounded mr-4">
                                     Save
                                 </button>
                             </h3>
@@ -61,7 +64,7 @@
                             <p class="">
                             {{exercise.name}}
                             
-                            <button class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-10 mr-4">
+                            <button class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-8 mr-4">
                                         Delete
                             </button>
                             </p>
@@ -95,6 +98,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { Exercises, MuscleGroups } from '../store.js'
 
 export default {
@@ -107,8 +111,16 @@ export default {
             muscleGroups: MuscleGroups,
             name: '',
             muscleGroup: '',
-            description: ''
+            description: '',
+            search: '',
+            error: '',
         }
+    },
+
+    watch: {
+        search: _.debounce(function(value) {
+            this.filterExercises(value);
+        }, 500)
     },
 
     mounted (){
@@ -116,27 +128,51 @@ export default {
             if (a.name > b.name) return 1;
             if (b.name > a.name) return -1;
             return 0;
-        });
-        console.log(this.exercises)
+        })
     },
 
     methods: {
+        filterExercises(value) {
+            if (value == '') {
+                this.exercises = Exercises;
+                this.exercises = this.exercises.sort(function (a, b) {
+                    if (a.name > b.name) return 1;
+                    if (b.name > a.name) return -1;
+                    return 0;
+                });
+            }
+            else {
+                value = value.toUpperCase()
+                this.exercises = this.exercises.filter(
+                    exercise =>  exercise.name.toUpperCase().includes(value) || exercise.muscleGroup.toUpperCase().includes(value)
+                )
+            }
+        },
+
         editingClick() {
             this.isEditing = !this.isEditing
             this.muscleGroup = ''
             this.name = ''
             this.description = ''
+            this.error = ''
         },
 
-        saveEntry() {
-            this.exercises.unshift({    
-                custom: true,
-                img: '',
-                name: this.name.charAt(0).toUpperCase() + this.name.slice(1),
-                muscleGroup: this.muscleGroup,
-                description: this.description
-            })
-            this.isEditing = false
+        async saveEntry() {
+            await this.$forceUpdate()
+            console.log(this.name.length)
+            if(this.name.length < 5) this.error = 'Name is too short!';
+            else if(this.muscleGroup == '') this.error = 'Must have a muscle group!';
+            else if(this.description.length < 10) this.error = 'Description is too short!';
+            else {
+                Exercises.unshift({    
+                    custom: true,
+                    img: '',
+                    name: this.name.charAt(0).toUpperCase() + this.name.slice(1),
+                    muscleGroup: this.muscleGroup,
+                    description: this.description
+                })
+                this.isEditing = false
+            }
         }
     }
 }
