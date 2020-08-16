@@ -1,176 +1,93 @@
 <template>
     <div class="bg-gray-200" style="min-height:100vh">
-        <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:40px; margin-left: 40px">
-            <i class="fas fa-backward"></i>
+        <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
+            <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
-        <button class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:110px; margin-right: 40px">
+        <button v-on:click="showSearch=!showSearch" v-bind:class="{ 'bg-blue-500': showSearch, 'hover:bg-blue-700': showSearch }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:110px; margin-right: 40px">
             <i class="fas fa-search"></i>
         </button>
-        <button class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:40px; margin-right: 40px">
+        <button v-on:click="showCustom=!showCustom" v-bind:class="{ 'bg-blue-500': showCustom, 'hover:bg-blue-700': showCustom }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:40px; margin-right: 40px">
             <i class="fas fa-th-list"></i>
         </button>
-        <button class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold py-4 px-5 rounded-full float-right" style="margin-top:180px; margin-right: 40px">
+        <button v-on:click="editingClick" v-bind:class="{ 'bg-blue-500': isEditing, 'hover:bg-blue-700': isEditing }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right"  style="width:60px;height:60px;margin-top:180px; margin-right: 40px">
             <i class="fas fa-plus-circle"></i>
         </button>
 
+        <div v-if="showSearch" class="p-5 mx-32">
+            <div class="bg-white flex items-center rounded-full shadow-xl">
+            <input class="rounded-full w-full py-4 px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search">
+            </div>
+        </div>
+
         <div class="container mx-auto p-8">
             <div class="flex flex-row flex-wrap -mx-2">       
-                <div v-if="newExercise" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2 slide-in-bottom-subtitle">
+                <div v-if="isEditing" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2 bounce-top-fast">
                     <div class="relative bg-white rounded border">
-                        <picture class="block bg-gray-200 border-b">
+                        <div class="block bg-gray-200 border-b" style="height:250px">
                             <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
-                                Don't forget to save!
+                                New entry!
                             </p>   
-                        <img class="block" src="/img/image-placeholder.png">
-                        </picture>
+                        <img class="block" src="/img/image-placeholder.png" style="height: 100%; width: 100%; object-fit: cover">
+                        </div>
                         <div class="p-4">
                             <h3 class="text-lg font-bold">
-                                <a class="stretched-link" href="#" title="Card 1">
-                                    Card 1
-                                </a>
-                                <button class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-10 mr-4">
+                                <input v-model="name" class="appearance-none bg-transparent border-none w-full font-bold mr-3 pr-2 leading-tight focus:outline-none" placeholder="Exercise Name">   
+                                <button v-on:click="saveEntry" class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-10 mr-4">
                                     Save
                                 </button>
                             </h3>
-                            <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
+
+                            <select v-model="muscleGroup" class="text-gray-600 appearance-none bg-transparent border-none rounded text-sm mr-3 py-0leading-tight focus:outline-none" style="cursor: pointer">
+                                <option value="" disabled selected>Choose a muscle group</option>
+                                <option v-for="muscles in muscleGroups" v-bind:value="muscles">
+                                    {{muscles}}
+                                </option>
+                            </select>
+                            <textarea v-model="description" class="appearance-none bg-transparent border-none w-full mr-3 py-1 pr-2 leading-tight focus:outline-none" style="height: 150px; overflow-y: scroll;" placeholder="Write something about this exercise!" />
                         </div>
                     </div>
                 </div>
-                                
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2 slide-in-bottom-subtitle">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 2">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 2">
-                        Card 2
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
+                
+                <div v-for="exercise in exercises" v-bind:key="exercise.id" v-bind:hidden="(showCustom && !exercise.custom)" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
+                    <div v-if="exercise.custom" class="relative bg-white rounded border">
+                        <div class="block bg-gray-200 border-b" style="height:250px">
+                            <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
+                                Custom entry!
+                            </p>  
+                            <img class="block" v-bind:src=" exercise.img" style="height: 100%; width: 100%; object-fit: cover">
+                        </div>
+                        <div class="p-4">
+                        <h3 class="text-lg font-bold">
+                            <p class="">
+                            {{exercise.name}}
+                            
+                            <button class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-10 mr-4">
+                                        Delete
+                            </button>
+                            </p>
+                        </h3>
+                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscleGroup}}</p>
+                        <p style="height: 150px; overflow-y: scroll;" >
+                            {{exercise.description}}
+                        </p>
+                        </div>
                     </div>
-                </div>
-                </div>
-                                
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 3">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 3">
-                        Card 3
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
+                    <div v-else-if="!showCustom" class="relative bg-white rounded border">
+                        <div class="block bg-gray-200 border-b" style="height:250px">
+                            <img class="block" v-bind:src=" exercise.img" style="height: 100%; width: 100%; object-fit: cover">
+                        </div>
+                        <div class="p-4">
+                        <h3 class="text-lg font-bold">
+                            <p class="stretched-link">
+                            {{exercise.name}}
+                            </p>
+                        </h3>
+                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscleGroup}}</p>
+                        <p style="height: 150px; overflow-y: scroll;" >
+                            {{exercise.description}}
+                        </p>
+                        </div>
                     </div>
-                </div>
-                </div>
-                                
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 4">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 4">
-                        Card 4
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    </div>
-                </div>
-                </div>
-                                
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 5">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 5">
-                        Card 5
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    </div>
-                </div>
-                </div>
-                                
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 6">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 6">
-                        Card 6
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    </div>
-                </div>
-                </div>
-
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 6">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 6">
-                        Card 6
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    </div>
-                </div>
-                </div>
-
-                <div class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                <div class="relative bg-white rounded border">
-                    <picture class="block bg-gray-200 border-b">
-                    <img class="block" src="https://via.placeholder.com/800x600/EDF2F7/E2E8F0/&amp;text=Card" alt="Card 6">
-                    </picture>
-                    <div class="p-4">
-                    <h3 class="text-lg font-bold">
-                        <a class="stretched-link" href="#" title="Card 6">
-                        Card 6
-                        </a>
-                    </h3>
-                    <time class="block mb-2 text-sm text-gray-600" datetime="2019-01-01">1st January 2019</time>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -178,10 +95,39 @@
 </template>
 
 <script>
+import { Exercises, MuscleGroups } from '../store.js'
+
 export default {
     data() {
         return {
-            newExercise: true
+            showCustom: false,
+            showSearch: false,
+            isEditing: false,
+            exercises: Exercises,
+            muscleGroups: MuscleGroups,
+            name: '',
+            muscleGroup: '',
+            description: ''
+        }
+    },
+
+    methods: {
+        editingClick() {
+            this.isEditing = !this.isEditing
+            this.muscleGroup = ''
+            this.name = ''
+            this.description = ''
+        },
+
+        saveEntry() {
+            Exercises.unshift({    
+                custom: true,
+                img: '',
+                name: this.name,
+                muscleGroup: this.muscleGroup,
+                description: this.description
+            })
+            this.isEditing = false
         }
     }
 }
