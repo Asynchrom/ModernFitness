@@ -24,6 +24,7 @@ let Workouts = [
         id: 1,
         date: '2015-03-25',
         duration: 24,
+        muscles: 'Chest',
         exercises: [
             {
                 id: 1,
@@ -45,10 +46,12 @@ let Workouts = [
         id: 2,
         date: '2016-04-22',
         duration: 21,
+        muscles: 'Chest',
         exercises: [
             {
                 id: 2,
                 name: 'Incline dumbbell bench press',
+                muscleGroup: 'Chest',
                 sets: 4,
                 reps: 5
             }

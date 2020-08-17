@@ -27,7 +27,7 @@
                             <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
                                 New entry!
                             </p>
-                            <p v-if="error" class="absolute left-0 bg-red-600 text-white text-xs font-bold px-2 rounded mr-4" style="top:50px">
+                            <p v-if="error" class="absolute left-0 bg-red-600 text-white text-xs font-bold px-2 rounded mr-4 bounce-top-fast" style="top:50px">
                                 {{error}}
                             </p>
                         <img class="block" src="/img/image-placeholder.png" style="height: 100%; width: 100%; object-fit: cover">
@@ -64,7 +64,7 @@
                             <p class="">
                             {{exercise.name}}
                             
-                            <button class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 rounded h-8 mr-4">
+                            <button class="absolute text-sm right-0 bg-orange-500 hover:bg-orange-700 text-white px-4 rounded h-8 mr-4">
                                         Delete
                             </button>
                             </p>
