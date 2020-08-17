@@ -83,7 +83,7 @@
 
 <script>
 import ExerciseSearch from '../components/ExerciseSearch.vue'
-import { Exercises, Workouts } from '../store.js'
+import { Workouts } from '../store.js'
 
 export default {
     components: { ExerciseSearch },
@@ -108,7 +108,6 @@ export default {
             editingEnabled: false,
             newWorkoutEditing: false,
             currentWorkout: {},
-            currentExercises: Exercises,
             exerciseSearchOpen: false
         }
     },
