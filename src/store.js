@@ -1,7 +1,31 @@
-let Authenticated = true
-let Credentials = {}
+let Authenticated = false
 
-let MuscleGroups = ['Chest','Arms','Back', 'Shoulders','Legs', 'Abs']
+let Credentials = {
+    token: '',
+    user: {
+        username: '',
+        gender: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        city: '',
+        state: '',
+        zip: ''
+    }
+}
+
+let User = {
+    username: 'KingKeanu',
+    gender: 'Male',
+    password: '12345',
+    firstName: 'Keanu',
+    lastName: 'Reeves',
+    city: 'Pula',
+    state: 'Croatia',
+    zip: '52100'
+}
+
+let MuscleGroups = ['Chest','Arms','Back','Shoulders','Legs','Abs']
 
 let Exercises = [
     {
@@ -61,16 +85,5 @@ let Workouts = [
         ]
     },
 ]
-
-let User = {
-    username: 'KingKeanu',
-    gender: 'Male',
-    password: '12345',
-    firstName: 'Keanu',
-    lastName: 'Reeves',
-    city: 'Pula',
-    state: 'Croatia',
-    zip: '52100'
-}
 
 export { Authenticated, Credentials, MuscleGroups, Exercises, Workouts, User }

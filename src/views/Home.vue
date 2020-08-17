@@ -1,8 +1,8 @@
 <template>
   <div class="leading-normal tracking-normal text-gray-900">
     
-    <LoginModal v-if="login" v-on:closeModalMessage="closeModals" v-on:switchModalMessage="switchModals" />
-    <SignupModal v-if="signup" v-on:closeModalMessage="closeModals" v-on:switchModalMessage="switchModals" />
+    <LoginModal v-if="login" v-on:closeModalMessage="closeModals()" v-on:switchModalMessage="switchModals()" />
+    <SignupModal v-if="signup" v-on:closeModalMessage="closeModals()" v-on:switchModalMessage="switchModals()" />
     
     <div class="h-screen pb-14 bg-right bg-cover bg-cool-dark bg-no-repeat" style="background-image:url('/img/hero-bg.jpg'); background-position: left 30vw top 0px;">
       <div class="container pt-24 md:pt-48 px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center move-up-down">
@@ -15,10 +15,10 @@
             Sign up today and start getting in shape!
           </p>
           <div class="flex w-full justify-center md:justify-start pb-24 lg:pb-0 fade-in">
-            <button v-on:click="login=true" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded h-12 mr-4 slide-in-bottom">
+            <button v-on:click="login = true" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded h-12 mr-4 slide-in-bottom">
               Login
             </button>
-            <button v-on:click="signup=true" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded h-12 slide-in-bottom">
+            <button v-on:click="signup = true" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded h-12 slide-in-bottom">
               Signup
             </button>
           </div>
@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import LoginModal from '../components/LoginModal.vue'
-import SignupModal from '../components/SignupModal.vue'
+import LoginModal from '../components/LoginModal'
+import SignupModal from '../components/SignupModal'
 
 export default {
   components: { LoginModal, SignupModal },
