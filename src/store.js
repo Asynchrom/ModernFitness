@@ -1,3 +1,6 @@
+let Authenticated = true
+let Credentials = {}
+
 let MuscleGroups = ['Chest','Arms','Back', 'Shoulders','Legs', 'Abs']
 
 let Exercises = [
@@ -70,4 +73,4 @@ let User = {
     zip: '52100'
 }
 
-export { MuscleGroups, Exercises, Workouts, User }
+export { Authenticated, Credentials, MuscleGroups, Exercises, Workouts, User }

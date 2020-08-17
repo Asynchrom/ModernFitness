@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import { Authenticated, Credentials } from '../store.js'
 
 Vue.use(VueRouter)
 
@@ -8,26 +9,34 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (Authenticated) next({ name: 'Menu' })
+      else next()
+    }
   },
   {
     path: '/menu',
     name: 'Menu',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "menu" */ '../views/Menu.vue')
   },
   {
     path: '/user',
     name: 'User',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
   },
   {
     path: '/exercises',
     name: 'Exercises',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "exercises" */ '../views/Exercises.vue')
   },
   {
     path: '/workouts',
     name: 'Workouts',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "workouts" */ '../views/Workouts.vue')
   },
 ]
@@ -38,17 +47,15 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (!store.authenticated && localStorage.getItem("store") != null){
-//     let stored = JSON.parse(localStorage.getItem("store"))
-//     store.credentials = stored.credentials
-//     store.token = stored.token
-//     store.authenticated = true
-//   }
-//   if (to.matched.some(record => record.meta.requiresAuth))
-//     if (!store.authenticated) next({ name: 'Login' })
-//     else next()
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  if (!Authenticated && localStorage.getItem("Credentials") != null){
+    Credentials = JSON.parse(localStorage.getItem("Credentials"))
+    Authenticated = true
+  }
+  if (to.matched.some(record => record.meta.requiresAuth))
+    if (!Authenticated) next({ name: 'Home' })
+    else next()
+  else next()
+})
 
 export default router
