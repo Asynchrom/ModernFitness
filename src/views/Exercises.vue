@@ -147,7 +147,7 @@ export default {
             else {
                 value = value.toUpperCase()
                 this.exercises = this.exercises.filter(
-                    exercise => exercise.name.toUpperCase().includes(value) || exercise.muscleGroup.toUpperCase().includes(value)
+                    exercise => exercise.name.toUpperCase().includes(value) || exercise.muscle.toUpperCase().includes(value)
                 )
             }
         },

@@ -41,7 +41,7 @@
                         </tr>
 
                         <tr v-for="(exercise, index) in currentWorkout.exercises" v-bind:key="index" class="border-b hover:bg-orange-100 bg-gray-100">
-                            <td class="p-3 px-5"><p>{{exercise.name}}</p></td>
+                            <td class="p-3 px-5 pr-20"><p>{{exercise.name}}</p></td>
                             <td class="p-3 pr-20"><p>{{exercise.muscle}}</p></td>
                             <td class="py-3 pr-20"><input v-bind:disabled="!(editingEnabled || newWorkoutEditing)" v-model="exercise.sets" class="text-center bg-transparent border-2" style="width:40px" type="number" /></td>
                             <td class="py-3 pr-20"><input v-bind:disabled="!(editingEnabled || newWorkoutEditing)" v-model="exercise.reps" class="text-center bg-transparent border-2" style="width:40px" type="number" /></td>
