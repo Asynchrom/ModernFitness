@@ -1,6 +1,8 @@
 <template>
     <div class="bg-gray-200" style="min-height:100vh">
 
+        <Loading v-if="loading" />
+
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
@@ -53,7 +55,7 @@
                 </div>
                 
                 <div v-for="exercise in exercises" v-bind:key="exercise.id" v-bind:hidden="(showCustom && !exercise.custom)" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
-                    <div v-if="exercise.custom" class="relative bg-white rounded border">
+                    <div v-if="!exercise.public" class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
                             <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
                                 Custom entry!
@@ -65,7 +67,7 @@
                             <p class="">
                             {{exercise.name}}
                             
-                            <button class="absolute text-sm right-0 bg-orange-500 hover:bg-orange-700 text-white px-4 rounded h-8 mr-4">
+                            <button v-on:click="deleteEntry(exercise._id)" class="absolute text-sm right-0 bg-orange-500 hover:bg-orange-700 text-white px-4 rounded h-8 mr-4">
                                         Delete
                             </button>
                             </p>
@@ -99,21 +101,23 @@
 </template>
 
 <script>
+import Loading from '../components/Loading'
 import _ from 'lodash'
 import store from '../store'
 import service from '../sevices'
 
 export default {
+    components: { Loading },
 
     data() {
         return {
             showCustom: false,
             showSearch: false,
             isEditing: false,
+            loading: false,
             search: '',
             error: '',
             exercises: [],
-            exercisesSearchCopy: [],
             muscleGroups: store.muscleGroups,
             name: '',
             muscle: '',
@@ -128,14 +132,18 @@ export default {
     },
 
     async mounted (){
-        this.exercises = await service.getExercises()
-        this.exercisesSearchCopy = this.exercises
+        if(store.exercises.length > 0) this.exercises = store.exercises
+        else{
+            this.loading = true
+            this.exercises = await service.getExercises()
+            this.loading = false
+        }
     },
 
     methods: {
         filterExercises(value) {
             if (value == '')
-                this.exercises = this.exercisesSearchCopy;
+                this.exercises = store.exercises
             else {
                 value = value.toUpperCase()
                 this.exercises = this.exercises.filter(
@@ -151,18 +159,37 @@ export default {
             this.error = ''
         },
         async saveEntry() {
-            await this.$forceUpdate()
-            if (this.name.length < 5) this.error = 'Name is too short!';
-            else if (this.muscle == '') this.error = 'Must have a muscle group!';
-            else if (this.description.length < 10) this.error = 'Description is too short!';
-            else {
-                await service.saveExercise({
-                    img: '',
-                    name: this.name,
-                    muscle: this.muscle,
-                    description: this.description
-                })
-                this.isEditing = false
+            try{
+                await this.$forceUpdate()
+                if (this.name.length < 5) this.error = 'Name is too short!';
+                else if (this.muscle == '') this.error = 'Must have a muscle group!';
+                else if (this.description.length < 10) this.error = 'Description is too short!';
+                else {
+                    this.loading = true
+                    this.name = this.name.trim()
+                    this.name =  this.name.charAt(0).toUpperCase() + this.name.slice(1);
+                    await service.saveExercise({
+                        img: '',
+                        name: this.name,
+                        muscle: this.muscle,
+                        description: this.description
+                    })
+                    this.exercises = await service.getExercises()
+                    this.isEditing = false
+                }
+            }
+            finally {
+                this.loading = false
+            }
+        },
+        async deleteEntry(id) {
+            try {
+                this.loading = true
+                await service.deleteExercise(id)
+                this.exercises = await service.getExercises()
+            }
+            finally {
+                this.loading = false
             }
         }
     }

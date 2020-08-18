@@ -1,5 +1,8 @@
 <template>
     <div class="text-gray-900 bg-gray-200" style="min-height:100vh">
+
+        <Loading v-if="loading" />
+
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
@@ -82,11 +85,25 @@
 </template>
 
 <script>
+import Loading from '../components/Loading'
 import ExerciseSearch from '../components/ExerciseSearch.vue'
-import { Workouts } from '../store.js'
+import store from '../store'
+import service from '../sevices'
 
 export default {
-    components: { ExerciseSearch },
+    components: { Loading, ExerciseSearch },
+
+    data() {
+        return {
+            workouts: [],
+            loading: false,
+            editorOpen: false,
+            editingEnabled: false,
+            newWorkoutEditing: false,
+            currentWorkout: {},
+            exerciseSearchOpen: false
+        }
+    },
 
     computed: {
         currentMuscleGroups: function () {
@@ -96,19 +113,16 @@ export default {
             let unique = arr.filter((value, index, self) => {
                 return self.indexOf(value) === index
               })
-            
             return unique.join()
         }
     },
 
-    data() {
-        return {
-            workouts: Workouts,
-            editorOpen: false,
-            editingEnabled: false,
-            newWorkoutEditing: false,
-            currentWorkout: {},
-            exerciseSearchOpen: false
+    async mounted (){
+        if(store.workouts.length > 0) this.workouts = store.workouts
+        else{
+            this.loading = true
+            this.workouts = await service.getWorkouts()
+            this.loading = false
         }
     },
 

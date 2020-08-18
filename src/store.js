@@ -21,5 +21,6 @@ export default {
         'Legs',
         'Abs'
     ],
-    
+    exercises: [],
+    workouts: []
 }
