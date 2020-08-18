@@ -58,13 +58,25 @@ export default {
         }
         return store.workouts
     },
-    async saveExercise(exercise) {
-        exercise.owner = store.credentials.user._id
-        let response = await Service.put("/exercises/save", exercise)
-        exercise._id = response.data
-        for (let i = 0; i < store.exercises.length; i++) {
-            if (exercise.name < store.exercises[i].name) return store.exercises.splice(i, 0, exercise)
+    async saveWorkout(workout) {
+        workout.owner = store.credentials.user._id
+        let response = await Service.put("/workouts/save", workout)
+        workout._id = response.data
+        for (let i = 0; i < store.workouts.length; i++) {
+            if (workout.date > store.workouts[i].date) return store.workouts.splice(i, 0, workout)
         }
-        store.exercises.push(exercise)
+        store.workouts.push(workout)
     },
+    async updateWorkout(workout) {
+        await Service.patch("/workouts/update", workout)
+        for (let i = 0; i < store.workouts.length; i++) {
+            if (store.workouts[i]._id == workout._id) return store.workouts[i] = workout
+        }
+    },
+    async deleteWorkout(workoutId) {
+        await Service.patch("/workouts/delete", {id: workoutId, owner: store.credentials.user._id})
+        for (let i = 0; i < store.workouts.length; i++) {
+            if (workoutId == store.workouts[i]._id) return store.workouts.splice(i, 1)
+        }
+    }
 }

@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 
-                <div v-for="exercise in exercises" v-bind:key="exercise.id" v-bind:hidden="(showCustom && !exercise.custom)" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
+                <div v-for="exercise in exercises" v-bind:key="exercise._id" v-bind:hidden="(showCustom && exercise.public)" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
                     <div v-if="!exercise.public" class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
                             <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
