@@ -52,7 +52,7 @@
             </div>
 
             <div class="w-1/2">
-                    <div v-on:click="signout" class="gallery-box" style="cursor: pointer">
+                    <div v-on:click="signout()" class="gallery-box" style="cursor: pointer">
                         <div class="single-gallery">
                             <div
                             class="gallery-img"
@@ -71,7 +71,8 @@
 export default {
   methods: {    
     signout() {
-      this.$router.replace({ name: "Home" });
+        window.localStorage.removeItem("Credentials")
+        location.reload()
     }
   }
 }

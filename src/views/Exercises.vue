@@ -1,5 +1,6 @@
 <template>
     <div class="bg-gray-200" style="min-height:100vh">
+
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
@@ -35,14 +36,14 @@
                         <div class="p-4">
                             <h3 class="text-lg font-bold">
                                 <input v-model="name" class="appearance-none bg-transparent w-full font-bold mr-3 pr-2 leading-tight focus:outline-none" placeholder="Exercise Name">   
-                                <button v-on:click="saveEntry" class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 h-8 rounded mr-4">
+                                <button v-on:click="saveEntry()" class="absolute right-0 bg-orange-500 hover:bg-orange-700 text-white font-bold px-4 h-8 rounded mr-4">
                                     Save
                                 </button>
                             </h3>
 
-                            <select v-model="muscleGroup" class="text-gray-600 appearance-none bg-transparent border-none rounded text-sm mr-3 py-0leading-tight focus:outline-none" style="cursor: pointer">
+                            <select v-model="muscle" class="text-gray-600 appearance-none bg-transparent border-none rounded text-sm mr-3 py-0leading-tight focus:outline-none" style="cursor: pointer">
                                 <option value="" disabled selected>Choose a muscle group</option>
-                                <option v-for="muscles in muscleGroups" v-bind:value="muscles" v-bind:key="muscles">
+                                <option v-for="muscles in muscleGroups" v-bind:key="muscles">
                                     {{muscles}}
                                 </option>
                             </select>
@@ -69,7 +70,7 @@
                             </button>
                             </p>
                         </h3>
-                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscleGroup}}</p>
+                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscle}}</p>
                         <p style="height: 150px; overflow-y: scroll;" >
                             {{exercise.description}}
                         </p>
@@ -85,7 +86,7 @@
                             {{exercise.name}}
                             </p>
                         </h3>
-                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscleGroup}}</p>
+                        <p class="block mb-2 text-sm text-gray-600">{{exercise.muscle}}</p>
                         <p style="height: 150px; overflow-y: scroll;" >
                             {{exercise.description}}
                         </p>
@@ -99,56 +100,49 @@
 
 <script>
 import _ from 'lodash'
-import { Exercises, MuscleGroups } from '../store.js'
+import store from '../store'
+import service from '../sevices'
 
 export default {
+
     data() {
         return {
             showCustom: false,
             showSearch: false,
             isEditing: false,
-            exercises: Exercises,
-            muscleGroups: MuscleGroups,
-            name: '',
-            muscleGroup: '',
-            description: '',
             search: '',
             error: '',
+            exercises: [],
+            exercisesSearchCopy: [],
+            muscleGroups: store.muscleGroups,
+            name: '',
+            muscle: '',
+            description: ''
         }
     },
 
     watch: {
         search: _.debounce(function(value) {
-            this.filterExercises(value);
+            this.filterExercises(value);    
         }, 500)
     },
 
-    mounted (){
-        this.exercises = this.exercises.sort(function (a, b) {
-            if (a.name > b.name) return 1;
-            if (b.name > a.name) return -1;
-            return 0;
-        })
+    async mounted (){
+        this.exercises = await service.getExercises()
+        this.exercisesSearchCopy = this.exercises
     },
 
     methods: {
         filterExercises(value) {
-            if (value == '') {
-                this.exercises = Exercises;
-                this.exercises = this.exercises.sort(function (a, b) {
-                    if (a.name > b.name) return 1;
-                    if (b.name > a.name) return -1;
-                    return 0;
-                });
-            }
+            if (value == '')
+                this.exercises = this.exercisesSearchCopy;
             else {
                 value = value.toUpperCase()
                 this.exercises = this.exercises.filter(
-                    exercise =>  exercise.name.toUpperCase().includes(value) || exercise.muscleGroup.toUpperCase().includes(value)
+                    exercise => exercise.name.toUpperCase().includes(value) || exercise.muscleGroup.toUpperCase().includes(value)
                 )
             }
         },
-
         editingClick() {
             this.isEditing = !this.isEditing
             this.muscleGroup = ''
@@ -156,19 +150,16 @@ export default {
             this.description = ''
             this.error = ''
         },
-
         async saveEntry() {
             await this.$forceUpdate()
-            console.log(this.name.length)
-            if(this.name.length < 5) this.error = 'Name is too short!';
-            else if(this.muscleGroup == '') this.error = 'Must have a muscle group!';
-            else if(this.description.length < 10) this.error = 'Description is too short!';
+            if (this.name.length < 5) this.error = 'Name is too short!';
+            else if (this.muscle == '') this.error = 'Must have a muscle group!';
+            else if (this.description.length < 10) this.error = 'Description is too short!';
             else {
-                Exercises.unshift({    
-                    custom: true,
+                await service.saveExercise({
                     img: '',
-                    name: this.name.charAt(0).toUpperCase() + this.name.slice(1),
-                    muscleGroup: this.muscleGroup,
+                    name: this.name,
+                    muscle: this.muscle,
                     description: this.description
                 })
                 this.isEditing = false

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-import { Authenticated, Credentials } from '../store'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -11,7 +11,7 @@ Vue.use(VueRouter)
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
-      if (Authenticated) next({ name: 'Menu' })
+      if (store.authenticated) next({ name: 'Menu' })
       else next()
     }
   },
@@ -48,12 +48,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (!Authenticated && localStorage.getItem("Credentials") != null){
-    Credentials = JSON.parse(localStorage.getItem("Credentials"))
-    Authenticated = true
+  if (!store.authenticated && localStorage.getItem("Credentials") != null){
+    store.credentials = JSON.parse(localStorage.getItem("Credentials"))
+    store.authenticated = true
   }
   if (to.matched.some(record => record.meta.requiresAuth))
-    if (!Authenticated) next({ name: 'Home' })
+    if (!store.authenticated) next({ name: 'Home' })
     else next()
   else next()
 })

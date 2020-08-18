@@ -1,5 +1,8 @@
 <template>
     <div class="text-gray-900 bg-gray-200">
+
+        <Loading v-if="loading" />
+
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
@@ -10,43 +13,50 @@
                     <div class="container mx-auto">
                         <div class="inputs w-full max-w-2xl p-6 mx-auto">
                             <h2 class="text-2xl text-gray-900">Account Setting</h2>
-                            <form class="mt-6 border-t border-gray-400 pt-4">
-                                <div class='flex flex-wrap -mx-3 mb-6'>
+                            <div class="mt-6 border-t border-gray-400 pt-4">
+                                <div class='w-full flex flex-wrap -mx-3 mb-6'>
                                     <div class='w-full md:w-full px-3 mb-10'>
                                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Username</label>
-                                        <input v-model="user.username" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text' required>
+                                        <input disabled v-model="store.credentials.user.username" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'>
                                     </div>
                                     <div class='w-full md:w-1/2 px-3 mb-6'>
                                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>New Password</label>
-                                        <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password' placeholder="******************" required>
+                                        <input v-model="newPassword" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password' placeholder="******************">
                                     </div>
                                     <div class='w-full md:w-1/2 px-3 mb-6'>
                                         <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Old Password</label>
-                                        <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password' placeholder="******************" required>
+                                        <input v-model="oldPassword" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password' placeholder="******************">
                                     </div>
-                                    <div class="personal w-full border-t border-gray-400 pt-4 m-2">
+                                    
+                                        <button v-on:click="updatePassword()" class=" m-3 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
+                                            Update password
+                                        </button>
+                                        <span v-if="passwordSuccess"><i class="m-3 fa-2x text-green-500 fas fa-check-circle"></i></span>
+                                        <span class="my-auto text-red-600">{{passwordError}}</span>
+
+                                    <div class="w-full border-t border-gray-400 pt-4 m-2">
                                         <h2 class="text-2xl text-gray-900 mt-2">Personal info</h2>
                                         <div class="flex items-center justify-between mt-4">
                                             
                                             <div class='w-full md:w-1/2 px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>first name</label>
-                                                <input v-model="user.firstName" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text' required>
+                                                <input v-model="store.credentials.user.firstName" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'>
                                             </div>
                                             <div class='w-full md:w-1/2 px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>last name</label>
-                                                <input v-model="user.lastName" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text' required>
+                                                <input v-model="store.credentials.user.lastName" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'>
                                             </div>
                                         </div>
-                                        <div class="flex items-center justify-between mt-4 border-b border-gray-400">
+                                        <div class="flex items-center justify-between mt-4 border-gray-400">
                                             
                                             <div class='w-full md:w-1/3 px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>City</label>
-                                                <input v-model="user.city" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' type='text' required>
+                                                <input v-model="store.credentials.user.city" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' type='text'>
                                             </div>
                                             <div class="w-full md:w-1/3 px-3 mb-6">
                                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>State</label>
                                                 <div class="relative">
-                                                <select class="block appearance-none w-full border-gray-400 border text-gray-700 shadow-inner py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500">
+                                                <select v-model="store.credentials.user.state" class="block appearance-none w-full border-gray-400 border text-gray-700 shadow-inner py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500">
                                                     <option>Croatia</option>
                                                 </select>
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -56,17 +66,17 @@
                                             </div>
                                             <div class='w-full md:w-1/3 px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Zip</label>
-                                                <input v-model="user.zip" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text' required>
+                                                <input v-model="store.credentials.user.zip" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'>
                                             </div>
                                         </div>
-                                        <div class="text-center m-4">
-                                            <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
-                                                Save
+                                            <button v-on:click="updateInfo()" class=" m-3 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
+                                                Update personal info
                                             </button>
-                                        </div>
+                                            <span v-if="infoSuccess"><i class="m-3 fa-2x text-green-500 fas fa-check-circle"></i></span>
+                                            <span class="text-red-600">{{infoError}}</span>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,12 +86,56 @@
 </template>
 
 <script>
-import { User } from '../store.js'
+import Loading from '../components/Loading'
+import store from '../store'
+import service from '../sevices'
 
 export default {
+    components: { Loading },
+
     data() {
         return {
-            user: User
+            store,
+            loading: false,
+            passwordError: '',
+            infoError: '',
+            newPassword: '',
+            oldPassword: '',
+            passwordSuccess: false,
+            infoSuccess: false
+        }
+    },
+
+    methods: {
+        async updatePassword() {
+            try{
+                this.loading = true
+                await service.updatePassword(this.newPassword, this.oldPassword)
+                this.passwordError = ''
+                this.passwordSuccess = true
+            }
+            catch (error) {
+                this.passwordSuccess = false
+                this.passwordError = error.response.data
+            }
+            finally {
+                this.loading = false
+            }
+        },
+        async updateInfo() {
+            try{
+                this.loading = true
+                await service.updateInfo()
+                this.infoError = ''
+                this.infoSuccess = true
+            }
+            catch (error) {
+                this.infoSuccess = false
+                this.infoError = error.response.data
+            }
+            finally {
+                this.loading = false
+            }
         }
     }
 }
