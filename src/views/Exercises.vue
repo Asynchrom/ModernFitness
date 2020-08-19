@@ -27,13 +27,14 @@
                 <div v-if="isEditing" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2 bounce-top-fast">
                     <div class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
-                            <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
+                            <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded-r mr-4" style="top:20px">
                                 New entry!
                             </p>
-                            <p v-if="error" class="absolute left-0 bg-red-600 text-white text-xs font-bold px-2 rounded mr-4 bounce-top-fast" style="top:50px">
+                            <p v-if="error" class="absolute left-0 bg-red-600 text-white text-xs font-bold px-2 rounded-r mr-4 bounce-top-fast" style="top:50px">
                                 {{error}}
                             </p>
-                        <img class="block" src="/img/image-placeholder.png" style="height: 100%; width: 100%; object-fit: cover">
+                        <img v-if="img" class="block" v-on:click="showImgSearch = true" v-bind:src="img" style="height: 100%; width: 100%; object-fit: cover;cursor: pointer" />
+                        <img v-else class="block" v-on:click="showImgSearch = true" src="/img/image-placeholder-2.png" style="height: 100%; width: 100%; object-fit: cover;cursor: pointer" />
                         </div>
                         <div class="p-4">
                             <h3 class="text-lg font-bold">
@@ -53,14 +54,39 @@
                         </div>
                     </div>
                 </div>
+
+                <div v-if="showImgSearch" class="fixed z-20 bottom-0 inset-x-0 px-4 pb-4 inset-0 flex items-center justify-center">
+                    <div class="fixed inset-0 transition-opacity">
+                    <div v-on:click="(showImgSearch = false, imgUrl = '')" class="absolute inset-0 bg-black opacity-75"></div>
+                    </div>
+                    <div class="bg-white w-full max-w-xs rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                    <div class="rounded-lg px-8 pt-6 mb-4">
+                        <p class="block text-gray-700 text-sm font-bold mb-1" for="username">
+                            URL of image:
+                        </p>
+                        <div class="w-full">
+                            <div class="flex w-full items-center border-b border-orange-500 py-2">
+                                <input v-model="imgUrl" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="https://example.com/img-1.jpg" >
+                                <button v-on:click="(showImgSearch = false, img = imgUrl)" class="flex-shrink-0 bg-orange-500 hover:bg-orange-700 border-orange-500 hover:border-orange-700 text-sm border-4 text-white py-1 px-4 rounded">
+                                Get
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 text-xs italic">Make sure you see the image properly in preview below!</p>
+                    </div>
+                    <div class="px-8 pb-8 overflow-y-auto" style="max-height:70vhpx">
+                        <img class="block" v-bind:src="imgUrl" style="height: 100%; width: 100%; object-fit: cover" />
+                    </div>
+                    </div>
+                </div>
                 
                 <div v-for="exercise in exercises" v-bind:key="exercise._id" v-bind:hidden="(showCustom && exercise.public)" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2">
                     <div v-if="!exercise.public" class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
-                            <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded mr-4" style="top:20px">
-                                Custom entry!
+                            <p class="absolute left-0 bg-orange-500 text-white text-xs font-bold px-2 rounded-r mr-4" style="top:20px">
+                                Personal
                             </p>  
-                            <img class="block" v-bind:src=" exercise.img" style="height: 100%; width: 100%; object-fit: cover">
+                            <img class="block" v-bind:src="exercise.img" style="height: 100%; width: 100%; object-fit: cover">
                         </div>
                         <div class="p-4">
                         <h3 class="text-lg font-bold">
@@ -111,6 +137,7 @@ export default {
 
     data() {
         return {
+            showImgSearch: false,
             showCustom: false,
             showSearch: false,
             isEditing: false,
@@ -119,6 +146,8 @@ export default {
             error: '',
             exercises: [],
             muscleGroups: store.muscleGroups,
+            img: '',
+            imgUrl: '',
             name: '',
             muscle: '',
             description: ''
@@ -145,6 +174,7 @@ export default {
             if (value == '')
                 this.exercises = store.exercises
             else {
+                this.exercises = store.exercises
                 value = value.toUpperCase()
                 this.exercises = this.exercises.filter(
                     exercise => exercise.name.toUpperCase().includes(value) || exercise.muscle.toUpperCase().includes(value)
@@ -157,6 +187,10 @@ export default {
             this.name = ''
             this.description = ''
             this.error = ''
+            this.img =''
+        },
+        getImage() {
+
         },
         async saveEntry() {
             try{
@@ -169,7 +203,7 @@ export default {
                     this.name = this.name.trim()
                     this.name =  this.name.charAt(0).toUpperCase() + this.name.slice(1);
                     await service.saveExercise({
-                        img: '',
+                        img: this.img,
                         name: this.name,
                         muscle: this.muscle,
                         description: this.description

@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed z-10 bottom-0 inset-x-0 px-4 pb-4 inset-0 flex items-center justify-center">
+  <div class="fixed z-20 bottom-0 inset-x-0 px-4 pb-4 inset-0 flex items-center justify-center">
 
     <div class="fixed inset-0 transition-opacity">
       <div v-on:click="closeModal()" class="absolute inset-0 bg-black opacity-75"></div>
@@ -64,6 +64,7 @@ export default {
             if (value == '')
                 this.exercises = store.exercises
             else {
+                this.exercises = store.exercises
                 value = value.toUpperCase()
                 this.exercises = this.exercises.filter(
                     exercise => exercise.name.toUpperCase().includes(value) || exercise.muscle.toUpperCase().includes(value)

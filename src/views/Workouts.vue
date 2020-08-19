@@ -55,11 +55,11 @@
                        
                     </tbody>
                 </table>
-                <div v-if="editingEnabled || newWorkoutEditing" class="mb-0 text-md bg-white text-center">
+                <div v-if="editingEnabled || newWorkoutEditing" class="pt-2 text-md bg-white text-center">
                     <button v-on:click="save()" class=" m-3 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
                         Save
                     </button>
-                    <span class="mt-4" v-if="saveSuccess"><i class="m-3 fa-2x text-green-500 fas fa-check-circle"></i></span>
+                    <span v-if="saveSuccess"><i class="absolute m-3 fa-2x text-green-500 fas fa-check-circle" style="bottom:0px"></i></span>
                     <span class="text-red-600">{{error}}</span>
                 </div>
             </div>
