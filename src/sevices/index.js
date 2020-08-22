@@ -11,6 +11,18 @@ Service.interceptors.request.use((request) => {
     return request;
 })
 
+Service.interceptors.response.use((response) => {
+    return response
+},
+(error) => {
+    if (error.response.status == 401 || error.response.status == 403) { 
+        window.localStorage.removeItem("Credentials")
+        $router.go()
+    }
+    throw error
+}
+)
+
 export default {
     async signup() {
         await Service.put("/users/signup", store.credentials.user)
