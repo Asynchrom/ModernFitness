@@ -70,7 +70,7 @@ export default {
       try{
         this.loading = true
         await service.login()
-        this.$router.replace({ name: "Menu" })
+        this.$router.go({ name: "Menu" })
       }
       catch (error) {
         this.error = error.response.data

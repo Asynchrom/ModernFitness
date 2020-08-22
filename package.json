@@ -6,6 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "author": "Asynchrom",
+  "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",

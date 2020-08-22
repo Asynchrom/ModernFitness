@@ -34,7 +34,7 @@
                                         <span v-if="passwordSuccess"><i class="m-3 fa-2x text-green-500 fas fa-check-circle"></i></span>
                                         <span class="my-auto text-red-600">{{passwordError}}</span>
 
-                                    <div class="w-full border-t border-gray-400 pt-4 m-2">
+                                    <div class="relative w-full border-t border-gray-400 pt-4 m-2">
                                         <h2 class="text-2xl text-gray-900 mt-2">Personal info</h2>
                                         <div class="flex items-center justify-between mt-4">
                                             
@@ -69,11 +69,11 @@
                                                 <input v-model="store.credentials.user.zip" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'>
                                             </div>
                                         </div>
-                                            <button v-on:click="updateInfo()" class=" m-3 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
-                                                Update personal info
-                                            </button>
-                                            <span v-if="infoSuccess"><i class="m-3 fa-2x text-green-500 fas fa-check-circle"></i></span>
-                                            <span class="text-red-600">{{infoError}}</span>
+                                        <button v-on:click="updateInfo()" class=" m-3 bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 my-2 rounded">
+                                            Update personal info
+                                        </button>
+                                        <span v-if="infoSuccess"><i class="absolute m-3 fa-2x text-green-500 fas fa-check-circle" style="bottom:0px"></i></span>
+                                        <span class="text-red-600">{{infoError}}</span>
                                     </div>
                                 </div>
                             </div>
