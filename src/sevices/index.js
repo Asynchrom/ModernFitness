@@ -24,6 +24,9 @@ Service.interceptors.response.use((response) => {
 )
 
 export default {
+    wakeup() {
+        Service.post("/")
+    },
     async signup() {
         await Service.put("/users/signup", store.credentials.user)
     },

@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import service from '../sevices/index'
 import LoginModal from '../components/LoginModal'
 import SignupModal from '../components/SignupModal'
 
@@ -41,6 +42,10 @@ export default {
       login: false,
       signup: false
     }
+  },
+
+  mounted() {
+    service.wakeup()
   },
 
   methods: {
