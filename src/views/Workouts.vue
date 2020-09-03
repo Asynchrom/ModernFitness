@@ -6,14 +6,18 @@
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
-        <button v-bind:class="{ 'bg-blue-500': editingEnabled, 'hover:bg-blue-700': editingEnabled }" v-on:click="editingEnabled=!editingEnabled" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px; margin-top:40px; margin-right: 40px">
+        <button v-bind:class="{ 'bg-blue-500': editingEnabled, 'hover:bg-blue-700': editingEnabled }" v-on:click="editingEnabled=!editingEnabled" title="Enable editing" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px; margin-top:40px; margin-right: 40px">
             <i class="fas fa-edit"></i>
         </button>
-        <button v-bind:class="{ 'bg-blue-500': newWorkoutEditing, 'hover:bg-blue-700': newWorkoutEditing }" v-on:click="newWorkoutClick" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px; margin-top:110px; margin-right: 40px">
+        <button v-bind:class="{ 'bg-blue-500': newWorkoutEditing, 'hover:bg-blue-700': newWorkoutEditing }" v-on:click="newWorkoutClick" title="Add new workout" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px; margin-top:110px; margin-right: 40px">
             <i class="fas fa-plus-circle"></i>
+        </button>
+        <button v-bind:class="{ 'bg-blue-500': generateWorkout, 'hover:bg-blue-700': generateWorkout }" v-on:click="generateWorkout=!generateWorkout" title="Generate workout" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px; margin-top:180px; margin-right: 40px">
+            <i class="fas fa-dumbbell"></i>
         </button>
 
         <ExerciseSearch v-if="exerciseSearchOpen" v-on:closeModalMessage="closeSearch()" v-on:chosenExerciseMessage="exerciseChosen" />
+        <GenerateWorkout v-if="generateWorkout" v-on:closeModalMessage="closeGenerateWorkout()" />
 
         <div class="container mx-auto p-8">
 
@@ -93,9 +97,10 @@ import Loading from '../components/Loading'
 import ExerciseSearch from '../components/ExerciseSearch'
 import store from '../store'
 import service from '../sevices'
+import GenerateWorkout from '../components/GenerateWorkout'
 
 export default {
-    components: { Loading, ExerciseSearch },
+    components: { Loading, ExerciseSearch, GenerateWorkout },
 
     data() {
         return {
@@ -105,6 +110,7 @@ export default {
             editorOpen: false,
             editingEnabled: false,
             newWorkoutEditing: false,
+            generateWorkout: false,
             currentWorkout: {},
             exerciseSearchOpen: false,
             error: '',
@@ -121,7 +127,7 @@ export default {
             let unique = arr.filter((value, index, self) => {
                 return self.indexOf(value) === index
               })
-            return unique.join()
+            return unique.join().replace(/,/g, ', ')
         }
     },
 
@@ -167,6 +173,9 @@ export default {
         closeSearch() {
             this.exerciseSearchOpen = false;
         },
+        closeGenerateWorkout() {
+            this.generateWorkout = false;
+        },
         exerciseChosen(exercise) {
             if(this.currentWorkout.exercises == undefined) this.currentWorkout.exercises = []
             exercise.sets = 0
@@ -198,6 +207,7 @@ export default {
                     this.error = error.response.data
                 }
                 finally{
+                    this.currentWorkout = JSON.parse(JSON.stringify(this.currentWorkout))
                     this.workouts = await service.getWorkouts()
                     this.loading = false
                 }

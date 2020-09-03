@@ -6,13 +6,13 @@
         <router-link to="/menu/" class="absolute z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="text-align: center;width:60px;height:60px; margin-top:40px; margin-left: 40px">
             <i class="fas fa-backward" style="margin-top: 22px;"></i>
         </router-link>
-        <button v-on:click="showSearch=!showSearch" v-bind:class="{ 'bg-blue-500': showSearch, 'hover:bg-blue-700': showSearch }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:110px; margin-right: 40px">
+        <button v-on:click="showSearch=!showSearch" v-bind:class="{ 'bg-blue-500': showSearch, 'hover:bg-blue-700': showSearch }" title="Search" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:110px; margin-right: 40px">
             <i class="fas fa-search"></i>
         </button>
-        <button v-on:click="showCustom=!showCustom" v-bind:class="{ 'bg-blue-500': showCustom, 'hover:bg-blue-700': showCustom }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:40px; margin-right: 40px">
+        <button v-on:click="showCustom=!showCustom" v-bind:class="{ 'bg-blue-500': showCustom, 'hover:bg-blue-700': showCustom }" title="Custom exercises" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:40px; margin-right: 40px">
             <i class="fas fa-th-list"></i>
         </button>
-        <button v-on:click="editingClick" v-bind:class="{ 'bg-blue-500': isEditing, 'hover:bg-blue-700': isEditing }" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right"  style="width:60px;height:60px;margin-top:180px; margin-right: 40px">
+        <button v-on:click="editingClick" v-bind:class="{ 'bg-blue-500': isEditing, 'hover:bg-blue-700': isEditing }" title="Add new exercises" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right"  style="width:60px;height:60px;margin-top:180px; margin-right: 40px">
             <i class="fas fa-plus-circle"></i>
         </button>
 
@@ -50,7 +50,7 @@
                                     {{muscles}}
                                 </option>
                             </select>
-                            <textarea v-model="description" class="appearance-none bg-transparent border-none w-full mr-3 py-1 pr-2 leading-tight focus:outline-none" style="height: 150px; overflow-y: scroll;" placeholder="Write something about this exercise!" />
+                            <textarea v-on:keydown.enter.prevent="saveEntry()" v-model="description" class="appearance-none bg-transparent border-none w-full mr-3 py-1 pr-2 leading-tight focus:outline-none" style="height: 150px; overflow-y: scroll;" placeholder="Write something about this exercise!" />
                         </div>
                     </div>
                 </div>

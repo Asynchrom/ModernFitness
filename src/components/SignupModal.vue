@@ -22,7 +22,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-city">
               Username  
             </label>
-            <input v-model="store.credentials.user.username" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="KingKeanu">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.username" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="KingKeanu">
           </div>
 
           <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -46,7 +46,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-password">
               Password
             </label>
-            <input v-model="store.credentials.user.password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password" placeholder="******************">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="password" placeholder="******************">
             <p class="text-gray-600 text-xs italic">Don't share your password with anyone!</p>
           </div>
         </div>
@@ -56,14 +56,14 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-first-name">
               First Name
             </label>
-            <input v-model="store.credentials.user.firstName" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Keanu">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.firstName" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Keanu">
           </div>
 
           <div class="w-full md:w-1/2 px-3">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-last-name">
               Last Name
             </label>
-            <input v-model="store.credentials.user.lastName" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Reeves">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.lastName" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Reeves">
           </div>
         </div>
 
@@ -72,7 +72,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-city">
               City
             </label>
-            <input v-model="store.credentials.user.city" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Pula">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.city" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Pula">
           </div>
 
           <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -93,7 +93,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="grid-zip">
               Zip
             </label>
-            <input v-model="store.credentials.user.zip" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="52100">
+            <input v-on:keyup.enter="signup()" v-model="store.credentials.user.zip" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="52100">
           </div>
         </div>
 
