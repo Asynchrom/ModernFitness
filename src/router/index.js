@@ -26,6 +26,12 @@ Vue.use(VueRouter)
     name: 'User',
     meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
+  },,
+  {
+    path: '/stats',
+    name: 'Stats',
+    meta: { requiresAuth: true },
+    component: () => import(/* webpackChunkName: "stats" */ '../views/Stats.vue')
   },
   {
     path: '/exercises',

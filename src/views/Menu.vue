@@ -1,7 +1,7 @@
 <template>
     <div class="gallery-area">
             <div class="absolute z-20" style="top:20vh; left:calc(50vw - 30vh)">
-                <router-link to="/exercises/">
+                <router-link to="/stats/">
                     <div class="gallery-box" style="height:55vh; width:55vh;">
                         <div class="single-gallery" style="height:55vh; width:55vh;border-radius: 50%;">
                             <div

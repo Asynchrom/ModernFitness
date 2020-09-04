@@ -17,7 +17,7 @@
         </button>
 
         <ExerciseSearch v-if="exerciseSearchOpen" v-on:closeModalMessage="closeSearch()" v-on:chosenExerciseMessage="exerciseChosen" />
-        <GenerateWorkout v-if="generateWorkout" v-on:closeModalMessage="closeGenerateWorkout()" />
+        <GenerateWorkout v-if="generateWorkout" v-on:closeModalMessage="closeGenerateWorkout()" v-on:workoutGeneratedMessage="workoutGenerated"/>
 
         <div class="container mx-auto p-8">
 
@@ -182,6 +182,14 @@ export default {
             exercise.reps = 0
             this.currentWorkout.exercises.push(exercise)
             this.exerciseSearchOpen = false
+            this.computedUpdate++
+        },
+        async workoutGenerated(generatedExercises, duration) {
+            this.newWorkoutEditing = false
+            await this.newWorkoutClick()
+            this.currentWorkout.exercises = generatedExercises
+            this.currentWorkout.duration = duration
+            this.generateWorkout = false
             this.computedUpdate++
         },
         async removeFromEditor(index) {
