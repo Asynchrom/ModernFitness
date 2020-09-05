@@ -131,7 +131,7 @@ export default {
         }
     },
 
-    async mounted (){
+    async mounted () {
         if(store.workouts.length > 0) this.workouts = store.workouts
         else{
             this.loading = true
@@ -142,7 +142,6 @@ export default {
 
     methods: {
         async workoutClicked(workout) {
-            console.log(workout)
             this.editorOpen = false
             await this.$forceUpdate()
             this.editorOpen = true
@@ -199,9 +198,18 @@ export default {
         },
         async save() {
             this.currentWorkout.duration = parseInt(this.currentWorkout.duration)
-            if (this.currentWorkout.date == undefined) this.error = 'Please choose a valid date!'
-            else if (this.currentWorkout.duration == undefined || isNaN(this.currentWorkout.duration) || this.currentWorkout.duration < 0 ) this.error = 'Please choose a valid duration!'
-            else if (this.currentWorkout.exercises == undefined || this.currentWorkout.exercises.length == 0) this.error = 'Please choose at least one exercise!'
+            if (this.currentWorkout.date == undefined) {
+                this.error = 'Please choose a valid date!'
+                this.saveSuccess = false
+            }
+            else if (this.currentWorkout.duration == undefined || isNaN(this.currentWorkout.duration) || this.currentWorkout.duration < 0 ) {
+                this.error = 'Please choose a valid duration!'
+                this.saveSuccess = false
+            }
+            else if (this.currentWorkout.exercises == undefined || this.currentWorkout.exercises.length == 0) {
+                this.error = 'Please choose at least one exercise!'
+                this.saveSuccess = false
+            }
             else {
                 try{
                     this.loading = true
@@ -210,12 +218,12 @@ export default {
                     else await service.updateWorkout(this.currentWorkout)
                     this.error = ''
                     this.saveSuccess = true
+                    this.currentWorkout = {}
                 }
                 catch(error){
                     this.error = error.response.data
                 }
                 finally{
-                    this.currentWorkout = JSON.parse(JSON.stringify(this.currentWorkout))
                     this.workouts = await service.getWorkouts()
                     this.loading = false
                 }

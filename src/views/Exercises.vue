@@ -23,7 +23,7 @@
         </div>
 
         <div class="container mx-auto p-8">
-            <div class="flex flex-row flex-wrap -mx-2">       
+            <div class="flex flex-row flex-wrap -mx-2">    
                 <div v-if="isEditing" class="w-full sm:w-1/2 md:w-1/3 mb-4 px-2 bounce-top-fast">
                     <div class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
@@ -106,7 +106,7 @@
                     </div>
                     <div v-else-if="!showCustom" class="relative bg-white rounded border">
                         <div class="block bg-gray-200 border-b" style="height:250px">
-                            <img class="block" v-bind:src=" exercise.img" style="height: 100%; width: 100%; object-fit: cover">
+                            <img class="block" v-bind:src="exercise.img" style="height: 100%; width: 100%; object-fit: cover">
                         </div>
                         <div class="p-4">
                         <h3 class="text-lg font-bold">

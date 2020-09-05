@@ -65,7 +65,7 @@
             </button>
           </div>
         </div>
-        <p class="text-gray-700 text-xs italic mt-4">We will also approximate workout duration for you!</p>
+        <p class="text-gray-700 text-xs italic mt-4">We will also approximate workout duration based on workout level!</p>
         <div class="flex items-center justify-center">
           <button v-on:click="submit()" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none" type="button">
             OK
@@ -79,7 +79,6 @@
 
 <script>
 import Loading from '../components/Loading'
-import store from '../store'
 import service from '../sevices'
 
 export default {
@@ -87,8 +86,6 @@ export default {
 
   data() {
     return {
-      store,
-      muscleGroups: store.muscleGroups,
       hardness: 5,
       loading: false,
       error: '',
