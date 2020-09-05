@@ -10,7 +10,7 @@
             <i class="fas fa-search"></i>
         </button>
         <button v-on:click="showCustom=!showCustom" v-bind:class="{ 'bg-blue-500': showCustom, 'hover:bg-blue-700': showCustom }" title="Custom exercises" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right" style="width:60px;height:60px;margin-top:40px; margin-right: 40px">
-            <i class="fas fa-th-list"></i>
+            <i class="fas fa-user-edit"></i>
         </button>
         <button v-on:click="editingClick" v-bind:class="{ 'bg-blue-500': isEditing, 'hover:bg-blue-700': isEditing }" title="Add new exercises" class="absolute right-0 z-10 bg-orange-500 hover:bg-orange-700 text-white font-bold rounded-full float-right"  style="width:60px;height:60px;margin-top:180px; margin-right: 40px">
             <i class="fas fa-plus-circle"></i>
