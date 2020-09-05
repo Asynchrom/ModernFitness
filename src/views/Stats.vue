@@ -205,6 +205,7 @@ export default {
 				});
 
 				var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+				valueAxis.min = 0;
 
 				var series = chart.series.push(new am4charts.ColumnSeries());
 				series.dataFields.valueY = "reps";
