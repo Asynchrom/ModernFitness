@@ -109,7 +109,6 @@ export default {
     async mounted() {
 		this.loading = true
 		let workouts = JSON.parse(JSON.stringify(await service.getWorkouts()))
-
 		let exercises = JSON.parse(JSON.stringify(await service.getExercises()))
 
 		this.workoutStats.forEach((el, index, theArray) => {
@@ -160,7 +159,6 @@ export default {
 		for( let i = 0; i < exercises.length; i++ ) {
 			let found = false
 			for ( let j = statArray.length - 1; j >= 0; j--) {
-				console.log(1, exercises[i].name)
 				let index = statArray[j].ranks.findIndex(el => el.name == exercises[i].name)
 				if(index != '-1') {
 					found = true
