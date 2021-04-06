@@ -2,7 +2,7 @@ import axios from "axios"
 import store from "../store"
 
 let Service = axios.create({
-    baseURL: 'https://modernfitness.herokuapp.com/',
+    baseURL: 'https://modern-fitness-api.herokuapp.com/',
     timeout: 5000
 })
 
